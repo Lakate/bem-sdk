@@ -16,24 +16,15 @@ function stringify(entity, delims) {
 
     let res = entity.block;
 
-    if (entity.elem) {
+    if (entity.elem !== undefined) {
         res += delims.elem + entity.elem;
     }
 
-    const modObj = entity.mod;
-    const modName = (typeof modObj === 'string' ? modObj : modObj && modObj.name) ||
-        !entity.__isBemEntityName__ && entity.modName;
-
-    if (modName) {
-        const hasModVal = modObj && modObj.hasOwnProperty('val') || entity.hasOwnProperty('modVal');
-        const modVal = modObj && modObj.val || !entity.__isBemEntityName__ && entity.modVal;
-
-        if (modVal || modVal === 0 || !hasModVal) {
-            res += delims.mod.name + modName;
-        }
-
-        if (modVal && modVal !== true) {
-            res += delims.mod.val + modVal;
+    if (entity.mod !== undefined) {
+        res += delims.mod.name + entity.mod.name;
+        
+        if (entity.mod.val !== undefined && entity.mod.val !== true) {
+            res += delims.mod.val + entity.mod.name;
         }
     }
 
